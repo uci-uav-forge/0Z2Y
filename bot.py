@@ -83,7 +83,8 @@ ER_WORDS = {
     'later', 'hater', 'dater', 'gater', 'skater', 'cater', 'structure',
     'fixture', 'texture', 'mixture', 'venture', 'gesture', 'picture',
     'measure', 'pressure', 'exposure', 'procedure', 'user',
-    'optimizer', 'smarter', 'tracker', 'monitor', 
+    'optimizer', 'smarter', 'tracker', 'monitor', 'sticker', 'diameter',
+    'editor', 'generator', 'calculator', 
 }
 
 @bot.event
