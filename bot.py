@@ -84,7 +84,7 @@ ER_WORDS = {
     'fixture', 'texture', 'mixture', 'venture', 'gesture', 'picture',
     'measure', 'pressure', 'exposure', 'procedure', 'user',
     'optimizer', 'smarter', 'tracker', 'monitor', 'sticker', 'diameter',
-    'editor', 'generator', 'calculator', 
+    'editor', 'generator', 'calculator', 'spotter'
 }
 
 @bot.event
