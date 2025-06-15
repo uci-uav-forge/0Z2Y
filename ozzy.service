@@ -1,0 +1,20 @@
+[Unit]
+Description=Ozzy Discord Bot
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=forge
+Group=forge
+WorkingDirectory=/home/forge/0Z2Y
+ExecStart=/usr/bin/python3 /home/forge/0Z2Y/bot.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+
+# sudo ln /home/forge/0Z2Y/ozzy.service /etc/systemd/system/ozzy.service
