@@ -61,8 +61,24 @@ ER_WORDS = {
     'october', 'november', 'december', 'september',
     'chapter', 'after', 'laughter', 'daughter', 'slaughter',
     'disaster', 'master', 'faster', 'easter', 'plaster', 'caster',
-    'theater', 'sweater', 'greater', 'crater', 'traitor', 'waiter',
-    'later', 'hater', 'dater', 'gater', 'skater', 'cater'
+    'theater', 'sweater', 'greater', 'traitor', 'waiter',
+    'feature', 'creature', 'preacher', 'reacher', 'beacher', 'formatter',
+    'manufacturer', 'controller', 'amplifier', 'converter', 'analyzer',
+    'compiler', 'debugger', 'processor', 'interpreter', 'scheduler',
+    'transformer', 'transistor', 'resistor', 'capacitor', 'inductor',
+    'cylinder', 'actuator', 'regulator', 'excavator', 'calibrator',
+    'zipper', 'dipper', 'skipper', 'chipper', 'flipper', 'slipper',
+    'chamber', 'member', 'timber', 'amber', 'umber', 'umber',
+    'wonder', 'ponder', 'wander', 'tender', 'render', 'gender',
+    'sender', 'lender', 'bender', 'fender', 'mender', 'vendor',
+    'spider', 'rider', 'slider', 'wider', 'cider', 'insider',
+    'outsider', 'provider', 'divider', 'decider',
+    'order', 'border', 'folder', 'holder', 'colder', 'bolder',
+    'older', 'shoulder', 'boulder', 'smolder',
+    'under', 'thunder', 'wonder', 'plunder', 'blunder', 'sunder',
+    'later', 'hater', 'dater', 'gater', 'skater', 'cater', 'structure',
+    'fixture', 'texture', 'mixture', 'venture', 'gesture', 'picture',
+    'measure', 'pressure', 'exposure', 'procedure'
 }
 
 def is_multisyllable_er_word(word: str) -> bool:
