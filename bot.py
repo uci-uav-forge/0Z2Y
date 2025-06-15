@@ -1,8 +1,10 @@
 import discord
+from discord import app_commands
 from discord.ext import commands
 import re
 import asyncio
 from typing import Set
+import random
 
 # Bot setup
 intents = discord.Intents.default()
@@ -11,7 +13,8 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Set to track recent jokes to avoid spam
 recent_jokes: Set[str] = set()
-JOKE_COOLDOWN = 30  # seconds
+joke_cooldown = 30  # seconds
+response_probability = 1
 
 # Common words ending in -er that are at least 2 syllables
 # This is a curated list to avoid false positives
@@ -78,8 +81,22 @@ ER_WORDS = {
     'under', 'thunder', 'wonder', 'plunder', 'blunder', 'sunder',
     'later', 'hater', 'dater', 'gater', 'skater', 'cater', 'structure',
     'fixture', 'texture', 'mixture', 'venture', 'gesture', 'picture',
-    'measure', 'pressure', 'exposure', 'procedure'
+    'measure', 'pressure', 'exposure', 'procedure', 'user'
 }
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} has connected to Discord!')
+    print(f'Bot is in {len(bot.guilds)} servers')
+    
+    
+    print("Syncing slash commands...")
+    try:
+        synced_commands = await bot.tree.sync()
+        print(f"{len(synced_commands)} slash commands synced successfully!")
+    except Exception as e:
+        print(f"Error syncing slash commands: {e}")
+    
 
 def is_multisyllable_er_word(word: str) -> bool:
     """Check if a word ends with -er sound and is at least 2 syllables"""
@@ -114,10 +131,40 @@ def is_multisyllable_er_word(word: str) -> bool:
     
     return False
 
-@bot.event
-async def on_ready():
-    print(f'{bot.user} has connected to Discord!')
-    print(f'Bot is in {len(bot.guilds)} servers')
+@bot.tree.command(name="ozzy_cooldown", description="Configure ozzy bot cooldown")
+@app_commands.describe(
+    cooldown="Cooldown time in seconds between repeat jokes (1-3600)",
+)
+async def ozzy_cooldown(
+    interaction: discord.Interaction,
+    cooldown: str,
+):
+    global joke_cooldown
+    
+    if cooldown is not None:
+        if 1 <= int(cooldown) <= 3600:
+            joke_cooldown = cooldown
+            await interaction.response.send_message(f"Cooldown set to {joke_cooldown} seconds.")
+        else:
+            await interaction.response.send_message("Cooldown must be between 1 and 3600 seconds.", ephemeral=True)
+            return
+    
+
+@bot.tree.command(name="ozzy_probability", description="Configure ozzy bot response probability")
+@app_commands.describe(
+    probability="Probability percentage to respond to messages (1-100)"
+)
+async def ozzy_probability(
+    interaction: discord.Interaction,
+    probability: str
+):
+    global response_probability
+    probability = int(probability)
+    if 1 <= probability <= 100:
+        response_probability = probability / 100.0
+        await interaction.response.send_message(f"Response probability set to {response_probability * 100:.2f}%.")
+    else:
+        await interaction.response.send_message("Probability must be between 1 and 100.", ephemeral=True)
 
 @bot.event
 async def on_message(message):
@@ -130,6 +177,8 @@ async def on_message(message):
     
     for word in words:
         if is_multisyllable_er_word(word):
+            if random.random() > response_probability:
+                return # Skip this word based on response probability
             # Clean the word for the joke
             clean_word = word.lower().strip('.,!?;:"\'')
             
@@ -160,7 +209,7 @@ async def on_message(message):
 
 async def remove_from_recent(key: str):
     """Remove a joke from recent jokes after cooldown period"""
-    await asyncio.sleep(JOKE_COOLDOWN)
+    await asyncio.sleep(joke_cooldown)
     recent_jokes.discard(key)
 
 @bot.command(name='test_er')
