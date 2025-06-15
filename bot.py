@@ -127,10 +127,11 @@ async def on_message(message):
             asyncio.create_task(remove_from_recent(cooldown_key))
             
             # Create the dad joke response
-            joke = f"{clean_word[0].upper+clean_word[1:]}? Hardly know her!"
+            joke = f"{clean_word[0].upper()+clean_word[1:]}? Hardly know her!"
             
             try:
-                await message.channel.send(joke)
+                await message.reply(joke)
+
                 print(f"Responded to '{clean_word}' in {message.guild.name}#{message.channel.name}")
                 break  # Only respond to the first word found to avoid spam
             except discord.errors.Forbidden:
