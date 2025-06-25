@@ -15,7 +15,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 # Set to track recent jokes to avoid spam
 recent_jokes: Set[str] = set()
 joke_cooldown = 30  # seconds
-response_probability = 5/100
+response_probability = 0.05
 
 # Common words ending in -er that are at least 2 syllables
 # This is a curated list to avoid false positives
